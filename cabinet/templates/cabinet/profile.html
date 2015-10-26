@@ -1,0 +1,34 @@
+{% extends "cabinet/base.html" %}
+
+{% block content %}
+  <div class="jumbotron">
+    <span class="info-header">
+      <h2>Информация</h2>
+      <a href="/cabinet/settings" class="edit">Редактировать</a>
+    </span>
+    <div class="row">
+      <div class="col-md-3">
+        <img class="avatar" src="http://localhost:8000/static/cabinet/images/people/alexeev.jpg" class="img-rounded avatar" />
+      </div>
+      <div class="col-md-5">
+        <dl>
+          {% for field in fields %}
+            <dt>{{ field.name }}:</dt>
+            <dd>{{ field.value }}</dd>
+          {% endfor %}
+        </dl>
+      </div>
+      <div class="col-md-4">
+        <form method="post" action="{% url 'cabinet.views.confirm' %}" >
+          {% csrf_token %}
+          <p>Собираетесь ли вы на следующую сессию ОЗШ?</p>
+          {% if status == 1 %} <span class="text-success">Вы подтвердили своё участие в сессии.</span> {% endif %}
+          {% if status == 2 %} <span class="text-danger">Вы отказались от участия в сессии.</span> {% endif %}
+          {% if status != 1 %} <input name="action" value="Подтвердить" type="submit" class="btn btn-success" /> {% endif %}
+          {% if status != 2 %} <input name="action" value="Отказаться" type="submit" class="btn btn-danger" /> {% endif %} <br />
+          <a href="/information" target="_blank" type="button" class="btn btn-info">Подробнее</a>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

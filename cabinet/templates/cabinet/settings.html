@@ -1,0 +1,21 @@
+{% extends "cabinet/base.html" %}
+
+{% block content %}
+  <div class="jumbotron edit-settings">
+    <span class="info-header">
+      <h2>Настройки</h2>
+    </span>
+    <div class="row">
+      <div class="col-md-12">
+        <form method="post" action="{% url 'cabinet.views.edit_settings' %}" >
+          {% csrf_token %}
+          {% for field in fields %}
+            {{ field.name }}:
+            <input name="{{ field.field_name }}" type="text" class="form-control" placeholder="{{ field.name }}" value="{{ field.value }}" />
+          {% endfor %}
+          <input class="btn btn-primary btn-block" type="submit" value="Сохранить" />
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
